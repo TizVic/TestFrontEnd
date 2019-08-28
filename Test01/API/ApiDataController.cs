@@ -22,6 +22,8 @@ namespace Test01.API
         {
             IList<Invoice> invoices = this.CreateInvoices();
 
+            IHeaderDictionary headers = Request.Headers;
+
             return new JsonResult(invoices);
         }
 

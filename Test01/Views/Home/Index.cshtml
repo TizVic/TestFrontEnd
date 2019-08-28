@@ -27,11 +27,15 @@
                 deferRender: true,
                 responsive: true,
                 ajax: "api/data/invoiceHeaders",
+                rowCallback: function( row, data ) {
+                    $('td:eq(3)', row).html( '&euro;' + data["taxableAmount"] );
+                    $('td:eq(4)', row).html( '&euro;' + data["totalAmount"] );
+                },
                 columnDefs: [
                     { orderable: false, targets: [] },
-                    { className: "dt-left", targets: [] },
-                    { className: "dt-center", targets: [] },
-                    { className: "dt-right", targets: [] },
+                    { className: "dt-left", targets: [0, 1] },
+                    { className: "dt-center", targets: [2] },
+                    { className: "dt-right", targets: [3, 4] },
                     { visible: false, targets: [] }
                 ],
                 columns: [
@@ -52,7 +56,7 @@
 <hr/>
 
 <div>
-    <table id="invoicesTable">
+    <table id="invoicesTable" style="width: 100%">
         <thead>
 
         <tr>
