@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Test01.POCOs;
 
 namespace Test01.API
@@ -35,8 +32,24 @@ namespace Test01.API
         public IActionResult GetInvoiceHeaders()
         {
             IList<Invoice> invoices = this.CreateInvoiceHeaders();
-
+            
             return new JsonResult(this.GetDataForDataTables<Invoice>(invoices));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="invoice"></param>
+        /// <returns></returns>
+        [HttpPost("createInvoice")]
+        public IActionResult PostInvoice([FromForm] Invoice invoice)
+        {
+            if (invoice.CustomerName != null)
+            {
+                return Ok();
+            }
+
+            return StatusCode(400);
         }
 
         /// <summary>
