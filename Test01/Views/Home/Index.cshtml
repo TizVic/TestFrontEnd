@@ -10,9 +10,12 @@
 
             // invoices.
 
+            // Semplice chiamata ajax che stampa il json dentro un DIV.
+
             $.ajax({
                 url: "api/data/invoices",
 
+                // (AVANZATO)
                 // Autenticazione "Basic".
                 //beforeSend: function (xhr) {
                 //    xhr.setRequestHeader ("Authorization", "Basic " + btoa("francesco" + ":" + "qwerty"));
@@ -23,6 +26,8 @@
             });
 
             // invoicesTable.
+
+            // DataTable fa una chiamata ajax per ottenre le testate delle fatture.
 
             $('#invoicesTable').DataTable({
                 scrollX: true,
@@ -51,6 +56,8 @@
 
             // form.
 
+            // Invio del form con una POST di jQuery.
+
             $( "#invoiceForm" ).submit(function( event ) {
 
                 var invoiceNumber = $("#InvoiceNumber").val();
@@ -60,7 +67,6 @@
                     type: "POST",
                     url: "api/data/createInvoice",
                     data: "InvoiceNumber=" + invoiceNumber + "&CustomerName=" + customerName,
-                    //dataType: "html",
                     success: function(msg) {
                         alert("Successo!");
                     },
@@ -69,7 +75,7 @@
                     }
                 });
 
-                event.preventDefault();
+                event.preventDefault(); // (IMPORTANTE)
             });
         });
 
