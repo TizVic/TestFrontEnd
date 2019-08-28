@@ -12,9 +12,11 @@
 
             $.ajax({
                 url: "api/data/invoices",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader ("Authorization", "Basic " + btoa("francesco" + ":" + "qwerty"));
-                }
+
+                // Autenticazione "Basic".
+                //beforeSend: function (xhr) {
+                //    xhr.setRequestHeader ("Authorization", "Basic " + btoa("francesco" + ":" + "qwerty"));
+                //}
 
             }).done(function (data) {
                 $('#invoices').html(JSON.stringify(data));
@@ -46,6 +48,29 @@
                     { "data": "totalAmount" }
                 ]
             });
+
+            // form.
+
+            $( "#invoiceForm" ).submit(function( event ) {
+
+                var invoiceNumber = $("#InvoiceNumber").val();
+                var customerName = $("#CustomerName").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "api/data/createInvoice",
+                    data: "InvoiceNumber=" + invoiceNumber + "&CustomerName=" + customerName,
+                    //dataType: "html",
+                    success: function(msg) {
+                        alert("Successo!");
+                    },
+                    error: function() {
+                        alert("Chiamata fallita, si prega di riprovare...");
+                    }
+                });
+
+                event.preventDefault();
+            });
         });
 
     </script>
@@ -69,4 +94,15 @@
 
         </thead>
     </table>
+</div>
+
+<hr/>
+
+<div>
+    <form id="invoiceForm" action="api/data/createInvoice" method="post">
+        <div style="margin-bottom: 10px;">InvoiceNumber:&nbsp;<input type="text" id="InvoiceNumber" name="InvoiceNumber" /></div>
+        <div>CustomerName:&nbsp;<input type="text" id="CustomerName" name="CustomerName" /></div>
+
+        <input type="submit" value="Send" />
+    </form>
 </div>
