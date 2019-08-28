@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Scripts
+{
+    <script>
+
+        $(document).ready(function() {
+
+            // invoices.
+
+            $.ajax({
+                url: "api/data/invoices",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader ("Authorization", "Basic " + btoa("francesco" + ":" + "qwerty"));
+                }
+
+            }).done(function (data) {
+                $('#invoices').html(JSON.stringify(data));
+            });
+
+            // invoicesTable.
+
+            $('#invoicesTable').DataTable({
+                scrollX: true,
+                deferRender: true,
+                responsive: true,
+                ajax: "api/data/invoiceHeaders",
+                columnDefs: [
+                    { orderable: false, targets: [] },
+                    { className: "dt-left", targets: [] },
+                    { className: "dt-center", targets: [] },
+                    { className: "dt-right", targets: [] },
+                    { visible: false, targets: [] }
+                ],
+                columns: [
+                    { "data": "invoiceNumber" },
+                    { "data": "customerName" },
+                    { "data": "invoiceDate" },
+                    { "data": "taxableAmount" },
+                    { "data": "totalAmount" }
+                ]
+            });
+        });
+
+    </script>
+}
+
+<div id="invoices"></div>
+
+<hr/>
+
+<div>
+    <table id="invoicesTable">
+        <thead>
+
+        <tr>
+            <th>invoiceNumber</th>
+            <th>customerName</th>
+            <th>invoiceDate</th>
+            <th>taxableAmount</th>
+            <th>totalAmount</th>
+        </tr>
+
+        </thead>
+    </table>
+</div>
